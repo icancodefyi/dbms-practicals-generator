@@ -4,51 +4,100 @@ from docx.enum.text import WD_PARAGRAPH_ALIGNMENT, WD_LINE_SPACING
 from docx.enum.section import WD_SECTION
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
+import os
+import time
 
-practical_3_data = {
-    'title': 'Write a Program to Constraints in SQL Language',
-    'aim': 'To study and implement various constraints in SQL such as NOT NULL, UNIQUE, PRIMARY KEY, FOREIGN KEY, and CHECK constraints to enforce data integrity and rules at the database level.',
+practical_dml_data = {
+    'title': 'Perform Data Manipulation Operations LO3',
+    'aim': 'To demonstrate various Data Manipulation Language (DML) commands in SQL such as INSERT, UPDATE, DELETE, and SELECT for manipulating and retrieving data from database tables.',
     'theory': (
-        'Constraints in SQL are rules applied to columns in tables to ensure the accuracy and reliability of the data within the database. '
-        'They enforce data integrity by restricting the type of data that can be inserted or updated in a table. Constraints can be specified '
-        'either during table creation or afterwards using ALTER commands.\n\n'
-        '- NOT NULL: Ensures columns cannot have NULL values, making input mandatory.\n'
-        '- UNIQUE: Guarantees all values in a column are distinct, avoiding duplicates.\n'
-        '- PRIMARY KEY: Combines uniqueness and non-nullability for row identification. Only one primary key per table.\n'
-        '- FOREIGN KEY: Creates a relation between two tables; values must match primary key in referenced table ensuring referential integrity.\n'
-        '- CHECK: Limits allowed values in a column based on a condition (e.g., age >=18).\n\n'
-        'Implementing constraints maintains data consistency and enforces business rules inside the database.'
+        "Data Manipulation Language (DML) is a critical component of SQL, enabling users to interact with, modify, and retrieve the data stored in relational databases. "
+        "It serves as the primary means by which data is inserted, updated, deleted, and queried. Understanding DML commands is fundamental for anyone working with databases, as these commands allow the management of the actual content within database tables.\n\n"
+
+        "The INSERT command is used to add new records to a table. By specifying the target table and the data values, users can populate their tables with information crucial for their applications. "
+        "It supports inserting single rows, as well as batch inserts for multiple records in one command, improving efficiency.\n\n"
+
+        "The UPDATE command allows modification of existing data. This operation is essential for maintaining accuracy and relevance in the database by enabling changes to specific fields based on conditions. "
+        "Without a WHERE clause, an UPDATE statement affects all records, so careful use of conditions is required to avoid unintended data alteration.\n\n"
+
+        "The DELETE command removes data from tables. It can delete specific rows based on criteria or all rows if used without a WHERE clause. "
+        "Deletion is permanent and often requires proper permissions and safeguards, as it affects database integrity.\n\n"
+
+        "SELECT is the query language component of DML, used to retrieve data. It is one of the most powerful commands, supporting filters (WHERE), sorting (ORDER BY), and joins to combine data across multiple tables. "
+        "SELECT statements can be simple or complex, forming the basis of database reporting and analysis.\n\n"
+
+        "DML commands interact closely with transactions to maintain consistency and integrity of data. Changes made by INSERT, UPDATE, or DELETE operations can be committed permanently or rolled back to maintain stable database states. "
+        "This transactional control allows for safe concurrent access and prevents data corruption.\n\n"
+
+        "Mastering DML commands empowers users to build dynamic, responsive applications and provides the ability to manage and analyze data effectively. Through practical use of INSERT, UPDATE, DELETE, and SELECT, one gains a comprehensive understanding of how databases operate at the data level.\n\n"
+
+        "Additionally, proper indexing, constraints, and optimization techniques can enhance the performance of DML operations, making them faster and more efficient. "
+        "DML combined with best practices in database design ensures reliable, scalable, and secure data management essential for modern applications. "
     ),
     'execution': [
-        "CREATE DATABASE LibraryDB;",
-        "USE LibraryDB;",
-        ("CREATE TABLE Students ("
-         " StudentID INT NOT NULL PRIMARY KEY,"
-         " LastName VARCHAR(50) NOT NULL,"
-         " FirstName VARCHAR(50),"
-         " Age INT CHECK (Age >= 18),"
-         " Email VARCHAR(100) UNIQUE,"
-         " DepartmentID INT,"
-         " FOREIGN KEY (DepartmentID) REFERENCES Departments(DepartmentID)"
-         ");"),
-        "ALTER TABLE Students ADD CONSTRAINT chk_Age CHECK (Age <= 60);"
+        {
+            'step': '1.      Create Database and Table',
+            'code': (
+                "CREATE DATABASE LibraryDB;\n"
+                "USE LibraryDB;\n"
+                "CREATE TABLE Books (\n"
+                "  BookID INT PRIMARY KEY,\n"
+                "  Title VARCHAR(100),\n"
+                "  Author VARCHAR(50),\n"
+                "  PublishedYear INT\n"
+                ");"
+            )
+        },
+        {
+            'step': '2.      Alter Table to Add Column',
+            'code': "ALTER TABLE Books ADD COLUMN Genre VARCHAR(30);"
+        },
+        {
+            'step': '3.      Insert Data Into Table',
+            'code': (
+                "INSERT INTO Books (BookID, Title, Author, PublishedYear, Genre) VALUES\n"
+                "(1, 'DBMS Fundamentals', 'A. Kumar', 2022, 'Education'),\n"
+                "(2, 'Learn SQL', 'S. Sharma', 2020, 'Reference');"
+            )
+        },
+        {
+            'step': '4.      Update Table Data',
+            'code': "UPDATE Books SET Genre = 'Academic' WHERE BookID = 1;"
+        },
+        {
+            'step': '5.      Select Table Data',
+            'code': "SELECT * FROM Books WHERE Genre = 'Education';"
+        },
+        {
+            'step': '6.      Delete Table Row',
+            'code': "DELETE FROM Books WHERE BookID = 2;"
+        },
+        {
+            'step': '7.      Truncate Table Rows (keep structure)',
+            'code': "DELETE FROM Books;"
+        },
+        {
+            'step': '8.      Drop Table',
+            'code': "DROP TABLE Books;"
+        }
     ],
     'output_description': (
-        'Fig 3.1 shows the creation of the Students table with various constraints applied. '
-        'Fig 3.2 displays the addition of the CHECK constraint on the Age column.'
+        "Each step’s output demonstrates the proper execution of SQL DML commands. Screenshots show successful table creation, column alteration, record insertion, data updates, filtered selections, row deletions, and complete table removal for verified understanding."
     ),
     'images': [
-        ('images/image.png', 'Students Table Creation with Constraints'),
-        ('images/image.png', 'Age CHECK Constraint Added on Students Table')
+        ('images/image.png', 'Insert Query Output'),
+        ('images/image.png', 'Update Query Output'),
+        ('images/image.png', 'Delete Query Output'),
+        ('images/image.png', 'Select Query Output'),
     ],
     'outcomes': [
-        'Successfully created tables with various constraints to enforce integrity.',
-        'Applied NOT NULL, UNIQUE, PRIMARY KEY, FOREIGN KEY, and CHECK constraints practically.',
-        'Matured ability to structure tables that maintain consistent and valid data entries.'
+        'Practiced table creation and structure modification.',
+        'Inserted new records, updated values, and deleted unwanted rows.',
+        'Retrieved specific information using SELECT queries based on filter conditions.',
+        'Gained thorough understanding of core DML operations in SQL.'
     ],
     'conclusion': (
-        'This practical enhanced understanding of enforcing rules at the database level using constraints, '
-        'improving data quality and consistency for better application reliability.'
+        'This practical reinforced the fundamental role of DML in SQL, highlighting efficient manipulation and retrieval of relational data. Mastery of these commands supports reliable and explainable database operations.'
     )
 }
 
@@ -163,11 +212,44 @@ class PracticalDocGenerator:
         cap_para.space_after = Pt(19.5)
 
     def save(self, filename):
-        self.doc.save(filename)
+        # Add a small delay to ensure any file handles are released
+        time.sleep(0.2)
+        
+        # Try to save with error handling
+        max_attempts = 3
+        for attempt in range(max_attempts):
+            try:
+                self.doc.save(filename)
+                print(f"Successfully saved: {filename}")
+                break
+            except PermissionError as e:
+                if attempt < max_attempts - 1:
+                    print(f"File is in use, waiting... (attempt {attempt + 1}/{max_attempts})")
+                    print("Please close the file if it's open in Word or another application.")
+                    time.sleep(2)
+                else:
+                    # If still can't save, try with a different name
+                    timestamp = int(time.time())
+                    backup_name = f"{filename.split('.')[0]}_{timestamp}.docx"
+                    try:
+                        self.doc.save(backup_name)
+                        print(f"Saved as {backup_name} instead (original file was in use)")
+                    except Exception as backup_error:
+                        print(f"Error saving file: {backup_error}")
+                        raise
+            except Exception as e:
+                print(f"Unexpected error: {e}")
+                raise
+
+    def close_open_file(self, filename):
+        """Check if file exists and warn user"""
+        if os.path.exists(filename):
+            print(f"Warning: {filename} already exists. Please close it if open in Word or other applications.")
+            print("Attempting to save in 3 seconds... Press Ctrl+C to cancel if you need to close the file.")
+            time.sleep(3)
 
 def generate_practical_doc(practical_num, data):
     doc_gen = PracticalDocGenerator(practical_num)
-
     doc_gen.add_main_heading(f"Practical {practical_num}: {data['title']}")
 
     doc_gen.add_sub_heading("Aim:")
@@ -178,9 +260,12 @@ def generate_practical_doc(practical_num, data):
 
     doc_gen.add_sub_heading("Execution:")
     for step in data['execution']:
-        doc_gen.add_code_block(step)
+        # step is a dict with 'step' and 'code' keys
+        doc_gen.add_paragraph(step['step'])  # Normal text for step description
+        doc_gen.add_code_block(step['code'])  # Code block for sql commands
 
     doc_gen.add_sub_heading("Output:")
+    doc_gen.add_paragraph(data['output_description'])
 
     for img_path, caption in data['images']:
         doc_gen.add_image_with_caption(img_path, caption)
@@ -196,5 +281,5 @@ def generate_practical_doc(practical_num, data):
     return filename
 
 if __name__ == "__main__":
-    filename = generate_practical_doc(3, practical_3_data)
+    filename = generate_practical_doc(3, practical_dml_data)
     print(f"Generated document: {filename}")
