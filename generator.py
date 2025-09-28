@@ -7,97 +7,74 @@ from docx.oxml.ns import qn
 import os
 import time
 
-practical_dml_data = {
-    'title': 'Perform Data Manipulation Operations LO3',
-    'aim': 'To demonstrate various Data Manipulation Language (DML) commands in SQL such as INSERT, UPDATE, DELETE, and SELECT for manipulating and retrieving data from database tables.',
+practical_sql_operators_data = {
+    'title': 'Study of operators in SQL',
+    'aim': (
+        'To study and apply various operators in SQL and understand their role in data manipulation and querying.'
+    ),
     'theory': (
-        "Data Manipulation Language (DML) is a critical component of SQL, enabling users to interact with, modify, and retrieve the data stored in relational databases. "
-        "It serves as the primary means by which data is inserted, updated, deleted, and queried. Understanding DML commands is fundamental for anyone working with databases, as these commands allow the management of the actual content within database tables.\n\n"
+        "Operators in SQL are special symbols or keywords used to perform operations on data, allowing users to carry out arithmetic, comparison, logical, and set-based tasks directly within queries.\n\n"
 
-        "The INSERT command is used to add new records to a table. By specifying the target table and the data values, users can populate their tables with information crucial for their applications. "
-        "It supports inserting single rows, as well as batch inserts for multiple records in one command, improving efficiency.\n\n"
+        "The common types of SQL operators include:\n"
+        "• Arithmetic operators (e.g., +, -, *, /, %): Perform mathematical operations on numeric values within columns or expressions.\n"
+        "• Comparison operators (e.g., =, >, <, >=, <=, !=, <>): Compare two values, returning TRUE or FALSE, and are essential in WHERE clause conditions.\n"
+        "• Logical operators (AND, OR, NOT): Combine multiple conditions in a WHERE clause to refine result sets based on complex criteria.\n"
+        "• Set operators (UNION, INTERSECT, EXCEPT): Combine results from multiple SELECT statements, supporting advanced data analysis.\n"
+        "• Special operators (BETWEEN, IN, LIKE, IS NULL): Offer versatile matching, range checks, and pattern-based queries to enhance SQL expressiveness.\n\n"
 
-        "The UPDATE command allows modification of existing data. This operation is essential for maintaining accuracy and relevance in the database by enabling changes to specific fields based on conditions. "
-        "Without a WHERE clause, an UPDATE statement affects all records, so careful use of conditions is required to avoid unintended data alteration.\n\n"
+        "Effective use of operators helps filter data, join tables, combine results, and execute powerful calculations directly in the database. Mastering SQL operators enables users to write efficient, readable, and precise queries that provide meaningful insights and answer complex business questions.\n\n"
 
-        "The DELETE command removes data from tables. It can delete specific rows based on criteria or all rows if used without a WHERE clause. "
-        "Deletion is permanent and often requires proper permissions and safeguards, as it affects database integrity.\n\n"
-
-        "SELECT is the query language component of DML, used to retrieve data. It is one of the most powerful commands, supporting filters (WHERE), sorting (ORDER BY), and joins to combine data across multiple tables. "
-        "SELECT statements can be simple or complex, forming the basis of database reporting and analysis.\n\n"
-
-        "DML commands interact closely with transactions to maintain consistency and integrity of data. Changes made by INSERT, UPDATE, or DELETE operations can be committed permanently or rolled back to maintain stable database states. "
-        "This transactional control allows for safe concurrent access and prevents data corruption.\n\n"
-
-        "Mastering DML commands empowers users to build dynamic, responsive applications and provides the ability to manage and analyze data effectively. Through practical use of INSERT, UPDATE, DELETE, and SELECT, one gains a comprehensive understanding of how databases operate at the data level.\n\n"
-
-        "Additionally, proper indexing, constraints, and optimization techniques can enhance the performance of DML operations, making them faster and more efficient. "
-        "DML combined with best practices in database design ensures reliable, scalable, and secure data management essential for modern applications. "
+        "For example, arithmetic operators can total order values, comparison and logical operators let you select records meeting multiple criteria, and set operators can aggregate data from various sources—all from within SQL statements."
     ),
     'execution': [
         {
-            'step': '1.      Create Database and Table',
+            'step': '1.      Arithmetic Operators',
             'code': (
-                "CREATE DATABASE LibraryDB;\n"
-                "USE LibraryDB;\n"
-                "CREATE TABLE Books (\n"
-                "  BookID INT PRIMARY KEY,\n"
-                "  Title VARCHAR(100),\n"
-                "  Author VARCHAR(50),\n"
-                "  PublishedYear INT\n"
-                ");"
+                "SELECT 5 + 3 AS Sum, 10 - 2 AS Difference, 4 * 3 AS Product, 20 / 5 AS Quotient, 10 % 3 AS Remainder;"
             )
         },
         {
-            'step': '2.      Alter Table to Add Column',
-            'code': "ALTER TABLE Books ADD COLUMN Genre VARCHAR(30);"
-        },
-        {
-            'step': '3.      Insert Data Into Table',
+            'step': '2.      Comparison Operators',
             'code': (
-                "INSERT INTO Books (BookID, Title, Author, PublishedYear, Genre) VALUES\n"
-                "(1, 'DBMS Fundamentals', 'A. Kumar', 2022, 'Education'),\n"
-                "(2, 'Learn SQL', 'S. Sharma', 2020, 'Reference');"
+                "SELECT Title, Author, PublishedYear FROM Books WHERE PublishedYear >= 2020 AND Author != 'J. Smith';"
             )
         },
         {
-            'step': '4.      Update Table Data',
-            'code': "UPDATE Books SET Genre = 'Academic' WHERE BookID = 1;"
+            'step': '3.      Logical Operators',
+            'code': (
+                "SELECT * FROM Books WHERE Genre = 'Education' OR PublishedYear < 2021;"
+            )
         },
         {
-            'step': '5.      Select Table Data',
-            'code': "SELECT * FROM Books WHERE Genre = 'Education';"
+            'step': '4.      Set Operators',
+            'code': (
+                "SELECT BookID, Title FROM Books WHERE Genre = 'Reference' UNION SELECT BookID, Title FROM Books WHERE PublishedYear > 2021;"
+            )
         },
         {
-            'step': '6.      Delete Table Row',
-            'code': "DELETE FROM Books WHERE BookID = 2;"
-        },
-        {
-            'step': '7.      Truncate Table Rows (keep structure)',
-            'code': "DELETE FROM Books;"
-        },
-        {
-            'step': '8.      Drop Table',
-            'code': "DROP TABLE Books;"
+            'step': '5.      Special Operators',
+            'code': (
+                "SELECT * FROM Books WHERE Title LIKE 'A%' OR Genre IN ('Education', 'Reference') AND PublishedYear BETWEEN 2019 AND 2023;"
+            )
         }
     ],
     'output_description': (
-        "Each step’s output demonstrates the proper execution of SQL DML commands. Screenshots show successful table creation, column alteration, record insertion, data updates, filtered selections, row deletions, and complete table removal for verified understanding."
+        "Each SQL command demonstrates use of a specific type of operator, showing arithmetic calculations, comparison-based selections, logical condition filtering, set union, and special operator query functions."
     ),
     'images': [
-        ('images/image.png', 'Insert Query Output'),
-        ('images/image.png', 'Update Query Output'),
-        ('images/image.png', 'Delete Query Output'),
-        ('images/image.png', 'Select Query Output'),
+        ('images/image.png', 'Arithmetic Operator Output'),
+        ('images/image.png', 'Comparison Operator Output'),
+        ('images/image.png', 'Logical Operator Output'),
+        ('images/image.png', 'Set Operator Output'),
+        ('images/image.png', 'Special Operator Output'),
     ],
     'outcomes': [
-        'Practiced table creation and structure modification.',
-        'Inserted new records, updated values, and deleted unwanted rows.',
-        'Retrieved specific information using SELECT queries based on filter conditions.',
-        'Gained thorough understanding of core DML operations in SQL.'
+        'Explored SQL operators for efficient query writing.',
+        'Applied arithmetic, comparison, logical, set, and special operators in practical SQL statements.',
+        'Interpreted outputs to understand operator function and effect in database manipulation.'
     ],
     'conclusion': (
-        'This practical reinforced the fundamental role of DML in SQL, highlighting efficient manipulation and retrieval of relational data. Mastery of these commands supports reliable and explainable database operations.'
+        'This practical improved skills in constructing advanced SQL queries using operators, supporting powerful data manipulation and extraction strategies.'
     )
 }
 
@@ -159,11 +136,64 @@ class PracticalDocGenerator:
         para.space_after = Pt(8)
 
     def add_paragraph(self, text):
-        para = self.doc.add_paragraph(text)
+        # Check if the text contains bullet points
+        if '•' in text or text.startswith('-'):
+            self.add_formatted_text_with_bullets(text)
+        else:
+            para = self.doc.add_paragraph(text)
+            para.style = 'Normal'
+            para.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
+            para.space_after = Pt(10)
+            para.line_spacing_rule = WD_LINE_SPACING.SINGLE
+
+    def add_formatted_text_with_bullets(self, text):
+        """Handle text with bullet points and regular paragraphs"""
+        lines = text.split('\n')
+        current_paragraph = []
+        
+        for line in lines:
+            line = line.strip()
+            if not line:  # Empty line
+                if current_paragraph:
+                    # Add the accumulated paragraph
+                    para_text = '\n'.join(current_paragraph)
+                    para = self.doc.add_paragraph(para_text)
+                    para.style = 'Normal'
+                    para.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
+                    para.space_after = Pt(10)
+                    current_paragraph = []
+                continue
+                
+            if line.startswith('•') or line.startswith('-'):
+                # First, add any accumulated regular paragraph
+                if current_paragraph:
+                    para_text = '\n'.join(current_paragraph)
+                    para = self.doc.add_paragraph(para_text)
+                    para.style = 'Normal'
+                    para.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
+                    para.space_after = Pt(6)
+                    current_paragraph = []
+                
+                # Add bullet point
+                bullet_text = line[1:].strip()  # Remove bullet character
+                bullet_para = self.doc.add_paragraph(bullet_text, style='List Bullet')
+                bullet_para.space_after = Pt(3)
+            else:
+                # Regular text line
+                current_paragraph.append(line)
+        
+    def add_step_description(self, step_text):
+        """Add a formatted step description"""
+        para = self.doc.add_paragraph(step_text)
         para.style = 'Normal'
+        run = para.runs[0]
+        run.font.name = 'Times New Roman'
+        run.font.size = Pt(12)
+        run.bold = True
+        run.font.color.rgb = RGBColor(102, 51, 0)  # Brown color for steps
         para.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
-        para.space_after = Pt(10)
-        para.line_spacing_rule = WD_LINE_SPACING.SINGLE
+        para.space_before = Pt(10)
+        para.space_after = Pt(4)
 
     def add_bullet_list(self, items):
         for item in items:
@@ -261,7 +291,7 @@ def generate_practical_doc(practical_num, data):
     doc_gen.add_sub_heading("Execution:")
     for step in data['execution']:
         # step is a dict with 'step' and 'code' keys
-        doc_gen.add_paragraph(step['step'])  # Normal text for step description
+        doc_gen.add_step_description(step['step'])  # Formatted step description
         doc_gen.add_code_block(step['code'])  # Code block for sql commands
 
     doc_gen.add_sub_heading("Output:")
@@ -281,5 +311,5 @@ def generate_practical_doc(practical_num, data):
     return filename
 
 if __name__ == "__main__":
-    filename = generate_practical_doc(3, practical_dml_data)
+    filename = generate_practical_doc(5, practical_sql_operators_data)
     print(f"Generated document: {filename}")
